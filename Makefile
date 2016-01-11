@@ -1,11 +1,11 @@
 CC              := g++
-PROJPATH        := -I./ 
+PROJPATH        := -I./
 LIBPATH         := -L/
-OPTS            := -Wextra -std=c++14 
- 
+OPTS            := -Wextra -std=c++14
+
 all: parser
 
-parser: cppparser.o 
+parser:
 	$(CC) $(PROJPATH) $(OPTS) -o parser cppparser.cpp
 
 clear:

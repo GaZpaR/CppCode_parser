@@ -6,10 +6,13 @@ int main(int argc, char** argv)
 {
   streampos size;
   char * memblock;
-
+	if(argv[1] == NULL){
+		cout << "You haven't enter file's name" << endl;
+		exit(1);
+	}
   ifstream file (argv[1], ios::in|ios::binary|ios::ate);
 
-	cout << "File's name is: "<< argv[1] << "\r\n";
+	cout << "File name is: "<< argv[1] << "\r\n";
 
   if (file.is_open())
   {
@@ -19,11 +22,17 @@ int main(int argc, char** argv)
     file.read (memblock, size);
     file.close();
 
-    cout << "the entire file content is in memory\r\n";
-
-		for(uint32_t i=0; i < size; i++)cout << memblock[i];
-
+    cout << "The entire file content is in memory\r\n";
+		cout << "File size is:" << size << " bytes" << endl;
 		cout << "\r\n";
+		cout << "<File Content>" << endl;
+		cout << endl;
+
+		cout << memblock;
+		//for(uint32_t i=0; i < size; i++)cout << memblock[i];
+
+		cout << endl;
+		cout << "</File Content>" << endl;
 
     delete[] memblock;
   }

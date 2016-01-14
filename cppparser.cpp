@@ -133,9 +133,9 @@ int main(int argc, char** argv)
   l2 = (newtp)malloc(MESSAGE_LEGTH*sizeof(newtp));
   l3 = (newtp)malloc(MESSAGE_LEGTH*sizeof(newtp));
 
-  snprintf(l1, MESSAGE_LEGTH - 1, "Hellow my black bro!\r\n");
-  snprintf(l2, MESSAGE_LEGTH - 1, "I would like to see your eyes..\r\n");
-  snprintf(l3, MESSAGE_LEGTH - 1, "Fuck'n nigga!\r\n");
+  snprintf(l1, MESSAGE_LEGTH , "Hellow my black bro!\r\n");
+  snprintf(l2, MESSAGE_LEGTH , "I would like to see your eyes..\r\n");
+  snprintf(l3, MESSAGE_LEGTH , "Fuck'n nigga!\r\n");
 
   cout << l1 << endl;
   cout << l2 << endl;

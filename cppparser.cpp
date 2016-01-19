@@ -1,4 +1,5 @@
 #include <cppparser.h>
+#include <string.h>
 
 using namespace std;
 
@@ -121,6 +122,18 @@ int main(int argc, char** argv)
 
 		cout << endl;
 		cout << "</File Content>" << endl;
+
+    //Here should be dependency resolver
+
+    for(uint32_t i=0; i < size; i++){
+      if(memblock[i] == '#'){
+        printf("We found #\r\n");
+        char condition[7];
+        memcpy(condition, &memblock[i+1], 7);
+        printf("%s\r\n",condition);
+        if(strcmp(condition, "include") == 0) printf("We find include\r\n");
+      }
+    }
 
     delete[] memblock;
   }

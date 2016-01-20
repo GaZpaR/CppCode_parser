@@ -29,7 +29,7 @@ struct vertex
 {
   char *data;       // Data
   uint32_t qchild;  // Children's quantity
-  node* parent;     // Pointer to parent
+  vertex* parent;     // Pointer to parent
   linklist children;
 };
 

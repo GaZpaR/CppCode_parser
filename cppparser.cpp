@@ -9,8 +9,6 @@ int main(int argc, char** argv)
   streampos size;
   char * memblock;
 
-  linklist li;
-
 	if(argv[1] == NULL){
 		cout << "You haven't enter file's name" << endl;
 		exit(1);
@@ -53,31 +51,6 @@ int main(int argc, char** argv)
     delete[] memblock;
   }
   else cout << "Unable to open file" << endl;
-
-  #define MESSAGE_LEGTH 50
-  newtp l1, l2, l3;
-
-  l1 = (newtp)malloc(MESSAGE_LEGTH*sizeof(newtp));
-  l2 = (newtp)malloc(MESSAGE_LEGTH*sizeof(newtp));
-  l3 = (newtp)malloc(MESSAGE_LEGTH*sizeof(newtp));
-
-  snprintf(l1, MESSAGE_LEGTH , "Hellow my black bro!\r\n");
-  snprintf(l2, MESSAGE_LEGTH , "I would like to see your eyes..\r\n");
-  snprintf(l3, MESSAGE_LEGTH , "Fuck'n nigga!\r\n");
-
-  cout << l1 << endl;
-  cout << l2 << endl;
-  cout << l3 << endl;
-
-  li.push(l1,1);
-  li.push(l2,2);
-  li.push(l3,3);
-
-  li.view();
-
-  free(l1);
-  free(l2);
-  free(l3);
 
   return 0;
 }

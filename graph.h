@@ -30,7 +30,9 @@ struct vertex
   char *data;       // Data
   uint32_t qchild;  // Children's quantity
   vertex* parent;     // Pointer to parent
-  linklist children;
+  verter* firstchild;
+  vertex* prev;
+  vertex* next;
 };
 
 
@@ -45,11 +47,6 @@ class graph{
 
       //Initializing children's quantity
       root.qchild = 0;
-
-      //Init root's paent address
-      //root.parent = NULL;
-
-      //root.children = NULL;
     };
 
     ~graph(){
@@ -57,7 +54,7 @@ class graph{
     };
 
     //Adding to the root list of links
-    virtual void addVertex(char *inlusion);
+    virtual void addVertex(char *inclusion);
 
     //Adding to the arbitary vertex
     virtual void addVertex(vertex *parent, char *inclusion);
@@ -66,7 +63,7 @@ class graph{
     virtual vertex getVertex(char *inclusionname);
 
     //Deleting arbitary vertex
-    virtual void delVertex(vertex *newnode);
+    virtual void delVertex(vertex *node);
 
     virtual void viewTree();
 

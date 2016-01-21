@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "string.h"
 
 using namespace std;
 
@@ -66,24 +67,88 @@ void linklist::view() // View elements in the list
     } while(newnode!=first);
 }
 
-void graph::addVertex(char *inlusion)
+//Adding vertex to the root
+void graph::addVertex(char *inclusion)
 {
+    vertex* newnode = new vertex; // Creating new element
+    char *tempdata = new char[(strlen(inclusion)+1)];
+    memcpy(tempdata, inclusion, strlen(inclusion));
+    newnode->data = tempdata; // filling element with new data
+    root.qchild++;
 
+    if(root.qchild == 1)   // If it first element in the list
+    {
+        newnode->parent = &root;
+        newnode->next = newnode;
+        newnode->prev = newnode;
+
+    }
+    else
+    {
+        vertex* temp = newnode; // Creating current pointer
+        for ( int i = root.qchild; i > 1; i--,temp = temp->next); // Cycle
+            temp->prev->next = newnode;
+            newnode->prev = temp->prev;
+            newnode->next = temp; // Adding before current pointer
+            temp->prev = newnode;
+    }
 }
 
 void graph::addVertex(vertex *parent, char *inclusion)
 {
+  vertex* newnode = new vertex; // Creating new element
+  char *tempdata = new char[(strlen(inclusion)+1)];
+  memcpy(tempdata, inclusion, strlen(inclusion));
+  newnode->data = tempdata; // filling element with new data
+  parent->qchild++;
 
+  if(parent->qchild == 1)   // If it first element in the list
+  {
+      newnode->parent = parent;
+      newnode->next = newnode;
+      newnode->prev = newnode;
+
+  }
+  else
+  {
+      newnode->parent = parent;
+      vertex* temp = newnode; // Creating current pointer
+      for ( int i = parent->qchild; i > 1; i--,temp = temp->next); // Cycle
+          temp->prev->next = newnode;
+          newnode->prev = temp->prev;
+          newnode->next = temp; // Adding before current pointer
+          temp->prev = newnode;
+  }
 }
 
 vertex graph::getVertex(char *inclusionname)
 {
   vertex tempel;
 
+  if(root.qchild == 0)  return 0; // If list is NULL
+
+
+  if(first == first ->next) // If it is last element in the list
+  {
+      val = first->data;
+      delete first;
+      first = NULL;
+  }
+  else
+ {
+      node* temp = first;
+      for ( int i = pos; i > 1; i--, temp = temp->next);
+          if( temp == first) first = temp->next;
+              temp->pred->next = temp->next; // Deleting temporary element
+              temp->next->pred = temp->pred;
+              val = temp->data;
+              delete temp;
+  }
+
   return tempel;
 }
 
-void graph::delVertex(vertex *newnode)
+void graph::delVertex(vertex *node)
 {
 
 }

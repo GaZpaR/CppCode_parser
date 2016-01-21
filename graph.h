@@ -30,7 +30,7 @@ struct vertex
   char *data;       // Data
   uint32_t qchild;  // Children's quantity
   vertex* parent;     // Pointer to parent
-  verter* firstchild;
+  vertex* firstchild;
   vertex* prev;
   vertex* next;
 };

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <vector>
 
 typedef char* newtp;
 struct node
@@ -35,6 +36,42 @@ struct vertex
   vertex* next;
 };
 
+struct tree{
+   char *name;
+   uint8_t *content;
+   uint32_t child_count;
+   std::vector< tree* > child;
+};
+
+class arbitarytree{
+  private:
+    tree root;
+  public:
+    arbitarytree(char *rootfile, uint8_t *file, size_t size){
+      root.name = new char(strlen(rootfile)+1);
+      memcpy(root.name, rootfile, strlen(rootfile));
+
+      root.content = new uint8_t[size+1];
+      memcpy(root.content, file, size);
+
+    }
+    virtual ~arbitarytree(){
+
+      delete root.content;
+      delete root.name;
+    }
+    virtual void addLeaf();
+
+    virtual void delLeaf();
+    virtual void delSubTree();
+    virtual void delTree();
+
+    virtual tree getLeaf();
+
+    virtual void viewSubTree();
+    virtual void viewTree();
+
+};
 
 class graph{
   private:

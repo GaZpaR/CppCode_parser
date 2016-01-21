@@ -125,25 +125,20 @@ vertex graph::getVertex(char *inclusionname)
 {
   vertex tempel;
 
-  if(root.qchild == 0)  return 0; // If list is NULL
+  if(root.qchild == 1)  return root; // If list is NULL
 
+  // If it is last element in the list
+  if(&root == root.next){
+        return root;
+  } else{
+      vertex* temp = root.next;
 
-  if(first == first ->next) // If it is last element in the list
-  {
-      val = first->data;
-      delete first;
-      first = NULL;
-  }
-  else
- {
-      node* temp = first;
-      for ( int i = pos; i > 1; i--, temp = temp->next);
-          if( temp == first) first = temp->next;
-              temp->pred->next = temp->next; // Deleting temporary element
-              temp->next->pred = temp->pred;
-              val = temp->data;
-              delete temp;
-  }
+      if(strcmp(temp->data, inclusionname) == 0) return *temp;
+      else{
+
+      }
+
+    }
 
   return tempel;
 }

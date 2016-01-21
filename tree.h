@@ -26,6 +26,8 @@ class arbitarytree{
       delete root.content;
       delete root.name;
     }
+    virtual leaf* createLeaf(char *leafname, uint8_t *file, size_t size);
+
     // Adding new leaf to the root
     virtual void addLeaf(leaf *newleaf);
     // Adding new leaf to the parent leaf

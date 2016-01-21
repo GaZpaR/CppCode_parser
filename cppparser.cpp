@@ -1,6 +1,6 @@
 #include <cppparser.h>
 #include <string.h>
-#include "graph.h"
+#include "tree.h"
 
 using namespace std;
 
@@ -20,7 +20,16 @@ int main(int argc, char** argv)
   if (file.is_open())
   {
     size = file.tellg();
+
     memblock = new char [size];
+
+    arbitarytree sometree(argv[1], (uint8_t*)memblock, size);
+
+    uint8_t wut[3]={22,234,7};
+
+    char hui[] = "suuka.h";
+    leaf* some = sometree.createLeaf(hui,wut,3);
+
     file.seekg (0, ios::beg);
     file.read (memblock, size);
     file.close();
@@ -51,6 +60,9 @@ int main(int argc, char** argv)
     delete[] memblock;
   }
   else cout << "Unable to open file" << endl;
+
+
+
 
   return 0;
 }

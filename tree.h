@@ -5,14 +5,19 @@
 struct leaf{
    char *name;
    uint8_t *content;
+   size_t cntnumber;
    leaf* parent;
    std::vector< leaf > child;
 };
 
 class arbitarytree{
   private:
+
     // List with all links of tree
     std::vector<leaf*> links;
+
+    // Nodes quantity
+    size_t nqnt;
 
     leaf root;
     // Create arbitary leaf
@@ -31,8 +36,16 @@ class arbitarytree{
       root.name = new char(strlen(rootfile)+1);
       memcpy(root.name, rootfile, strlen(rootfile));
 
+      nqnt = 0;
+
+      root.cntnumber = nqnt;
+
+      root.parent = &root;
+
       root.content = new uint8_t[size+1];
       memcpy(root.content, file, size);
+
+      links.push_back(&root);
     }
 
     virtual ~arbitarytree(){

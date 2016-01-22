@@ -5,6 +5,7 @@
 struct leaf{
    char *name;
    uint8_t *content;
+   leaf* parent;
    std::vector< leaf > child;
 };
 

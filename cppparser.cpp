@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     uint8_t wut[3]={22,234,7};
 
     char hui[] = "suuka.h";
-    leaf* some = sometree.createLeaf(hui,wut,3);
+    sometree.addLeaf(hui,wut,3);
 
     file.seekg (0, ios::beg);
     file.read (memblock, size);

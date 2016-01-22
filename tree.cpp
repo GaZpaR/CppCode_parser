@@ -14,6 +14,11 @@ leaf* arbitarytree::createLeaf(char *leafname, uint8_t *file, size_t size)
   return newleaf;
 }
 
+void arbitarytree::appendLeaf(leaf *parent, leaf *newleaf)
+{
+  
+}
+
 void arbitarytree::addLeaf(leaf *newleaf)
 {
 

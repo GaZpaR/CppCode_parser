@@ -27,10 +27,11 @@ class arbitarytree{
     virtual void appendLeaf(leaf *parent, leaf *newleaf);
 
     // Searching parentleaf
-
     virtual leaf* searchLeaf(char *leafname);
 
-    virtual leaf* searchFromRoot(char *leafname, leaf *someleaf);
+    // Deleting root and all subtrees
+    virtual void delTree(void);
+
   public:
     arbitarytree(char *rootfile, uint8_t *file, size_t size){
       root.name = new char(strlen(rootfile)+1);
@@ -49,9 +50,7 @@ class arbitarytree{
     }
 
     virtual ~arbitarytree(){
-
-      delete root.content;
-      delete root.name;
+      //delTree();
     }
 
     // Adding new leaf to the root
@@ -61,9 +60,6 @@ class arbitarytree{
 
     // Deleting leaf and it's children
     virtual void delLeaf(leaf *choiceleaf);
-
-    // Deleting root and all subtrees
-    virtual void delTree(void);
 
     // Geting leaf by it's name
     virtual leaf* getLeaf(char *filename);

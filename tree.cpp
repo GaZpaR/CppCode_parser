@@ -21,6 +21,8 @@ void arbitarytree::appendLeaf(leaf *parent, leaf *newleaf)
   leaf* tleaf = parent->child.data();
   tleaf->parent = parent;
   tleaf->cntnumber = nqnt;
+
+  links.push_back(tleaf);
 }
 
 void arbitarytree::addLeaf(char *leafname, uint8_t *file, size_t size)
@@ -35,30 +37,22 @@ bool checkmatch(char *leafname, leaf *someleaf)
   else return false;
 }
 
-leaf*  retleaf;
-vector<leaf*> leafstack;
-// Recursive searching of parent leaf
-leaf* arbitarytree::searchFromRoot(char *leafname, leaf *someleaf)
-{
-  leaf *pleaf;
+leaf* retleaf;
 
-  if(checkmatch(leafname, someleaf)) return someleaf;
-  cout << "Size of root childs is: " << someleaf->child.size() << endl;
-  if(someleaf->child.size() > 0) pleaf = someleaf->child.data();
-  else return retleaf;
-
-  for(size_t i=0; i < someleaf->child.size(); i++){
-    if(checkmatch(leafname, someleaf)) return pleaf;
-    pleaf++;
-  }
-  cout << "Here is breaking prog" << endl;
-  return searchFromRoot(leafname, pleaf--);
-}
-
+// Searching of parent leaf
 leaf* arbitarytree::searchLeaf(char *leafname)
 {
-  // Starting search from root
-  return searchFromRoot(leafname, &root);
+  leaf **pleaf;
+
+  pleaf = links.data();
+
+  if(checkmatch(leafname, *pleaf)) return *pleaf;
+  for(size_t i=0; i < links.size(); i++){
+    pleaf++;
+    if(checkmatch(leafname, *pleaf)) return *pleaf;
+  }
+
+  return retleaf;
 }
 
 void arbitarytree::addLeaf(char *parentleaf, char *leafname, uint8_t *file, size_t size)
@@ -75,12 +69,20 @@ void arbitarytree::addLeaf(char *parentleaf, char *leafname, uint8_t *file, size
 
 void arbitarytree::delLeaf(leaf *choiceleaf)
 {
-
+  delete[] choiceleaf->name;
+  delete[] choiceleaf->content;
+  delete[] choiceleaf;
 }
 
 void arbitarytree::delTree(void)
 {
+  leaf **someleaf = links.data();
 
+  for(size_t i=0; i < links.size(); i++){
+    delLeaf(*someleaf);
+    someleaf++;
+  }
+  links.clear();
 }
 
 leaf* arbitarytree::getLeaf(char *filename)

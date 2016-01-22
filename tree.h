@@ -6,12 +6,23 @@ struct leaf{
    char *name;
    uint8_t *content;
    uint32_t child_count;
-   std::vector< leaf* > child;
+   std::vector< leaf > child;
 };
 
 class arbitarytree{
   private:
     leaf root;
+    // Create arbitary leaf
+    virtual leaf* createLeaf(char *leafname, uint8_t *file, size_t size);
+
+    // Append arbitary leaf to the parent
+    virtual void appendLeaf(leaf *parent, leaf *newleaf);
+
+    // Searching parentleaf
+
+    virtual leaf* searchLeaf(char *leafname);
+
+    virtual leaf* searchFromRoot(char *leafname, leaf *someleaf);
   public:
     arbitarytree(char *rootfile, uint8_t *file, size_t size){
       root.name = new char(strlen(rootfile)+1);
@@ -27,16 +38,10 @@ class arbitarytree{
       delete root.name;
     }
 
-    // Create arbitary leaf
-    virtual leaf* createLeaf(char *leafname, uint8_t *file, size_t size);
-
-    // Append arbitary leaf to the parent
-    virtual void appendLeaf(leaf *parent, leaf *newleaf);
-
     // Adding new leaf to the root
-    virtual void addLeaf(leaf *newleaf);
+    virtual void addLeaf(char *leafname, uint8_t *file, size_t size);
     // Adding new leaf to the parent leaf
-    virtual void addLeaf(leaf *parentleaf, leaf *newleaf);
+    virtual void addLeaf(char *parentleaf, char *leafname, uint8_t *file, size_t size);
 
     // Deleting leaf and it's children
     virtual void delLeaf(leaf *choiceleaf);

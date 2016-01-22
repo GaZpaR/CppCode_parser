@@ -1,5 +1,5 @@
 #include "tree.h"
-
+#include <stdbool.h>
 using namespace std;
 
 leaf* arbitarytree::createLeaf(char *leafname, uint8_t *file, size_t size)
@@ -16,16 +16,57 @@ leaf* arbitarytree::createLeaf(char *leafname, uint8_t *file, size_t size)
 
 void arbitarytree::appendLeaf(leaf *parent, leaf *newleaf)
 {
-  
+  parent->child.push_back(*newleaf);
+  parent->child_count++;
 }
 
-void arbitarytree::addLeaf(leaf *newleaf)
+void arbitarytree::addLeaf(char *leafname, uint8_t *file, size_t size)
 {
-
+  appendLeaf(&root, createLeaf(leafname, file, size));
 }
 
-void arbitarytree::addLeaf(leaf *parentleaf, leaf *newleaf)
+
+bool checkmatch(char *leafname, leaf *someleaf)
 {
+  if(strcmp(someleaf->name, leafname) == 0) return true;
+  else return false;
+}
+
+leaf*  retleaf;
+vector<leaf*> leafstack;
+// Recursive searching of parent leaf
+leaf* arbitarytree::searchFromRoot(char *leafname, leaf *someleaf)
+{
+  leaf *pleaf;
+
+  if(checkmatch(leafname, someleaf)) return someleaf;
+  cout << "Size of root childs is: " << someleaf->child.size() << endl;
+  if(someleaf->child.size() > 0) pleaf = someleaf->child.data();
+  else return retleaf;
+
+  for(size_t i=0; i < someleaf->child.size(); i++){
+    if(checkmatch(leafname, someleaf)) return pleaf;
+    pleaf++;
+  }
+  cout << "Here is breaking prog" << endl;
+  return searchFromRoot(leafname, pleaf--);
+}
+
+leaf* arbitarytree::searchLeaf(char *leafname)
+{
+  // Starting search from root
+  return searchFromRoot(leafname, &root);
+}
+
+void arbitarytree::addLeaf(char *parentleaf, char *leafname, uint8_t *file, size_t size)
+{
+  leaf *parent = searchLeaf(parentleaf);
+
+  if(parent == retleaf) cout << "There is no such parent leaf" << endl;
+  else{
+    cout << "Parent leaf name is " << parent->name << endl;
+    appendLeaf(parent, createLeaf(leafname, file, size));
+  }
 
 }
 

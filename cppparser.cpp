@@ -34,6 +34,13 @@ int main(int argc, char** argv)
     char hui[] = "suuka.h";
     sometree.addLeaf(hui,wut,3);
 
+    uint8_t seg[7] = {12,56,88,92,1,1,1};
+    char mm[] = "fuck.c";
+    char hh[] = "hugo.c";
+    sometree.addLeaf(argv[1], mm, seg, 7);
+    sometree.addLeaf(mm, hh, seg, 7);
+
+
     file.seekg (0, ios::beg);
     file.read (memblock, size);
     file.close();

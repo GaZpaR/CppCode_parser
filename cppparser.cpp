@@ -17,8 +17,12 @@ int main(int argc, char** argv)
 
 	cout << "File name is: "<< argv[1] << endl;
 
-  if (file.is_open())
-  {
+  if (file.is_open()) cout << "File is opened" << endl;
+  else{
+    cout << "Unable to open file" << endl;
+    exit(1);
+  }
+
     size = file.tellg();
 
     memblock = new char [size];
@@ -58,9 +62,6 @@ int main(int argc, char** argv)
     }
 
     delete[] memblock;
-  }
-  else cout << "Unable to open file" << endl;
-
 
 
 

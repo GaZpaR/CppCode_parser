@@ -5,12 +5,14 @@
 struct leaf{
    char *name;
    uint8_t *content;
-   uint32_t child_count;
    std::vector< leaf > child;
 };
 
 class arbitarytree{
   private:
+    // List with all links of tree
+    std::vector<leaf*> links;
+
     leaf root;
     // Create arbitary leaf
     virtual leaf* createLeaf(char *leafname, uint8_t *file, size_t size);

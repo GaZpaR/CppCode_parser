@@ -17,7 +17,6 @@ leaf* arbitarytree::createLeaf(char *leafname, uint8_t *file, size_t size)
 void arbitarytree::appendLeaf(leaf *parent, leaf *newleaf)
 {
   parent->child.push_back(*newleaf);
-  parent->child_count++;
 }
 
 void arbitarytree::addLeaf(char *leafname, uint8_t *file, size_t size)

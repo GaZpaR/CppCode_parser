@@ -27,6 +27,10 @@ int main(int argc, char** argv)
 
     memblock = new char [size];
 
+    file.seekg (0, ios::beg);
+    file.read (memblock, size);
+    file.close();
+
     arbitarytree sometree(argv[1], (uint8_t*)memblock, size);
 
     uint8_t wut[3]={22,234,7};
@@ -38,12 +42,11 @@ int main(int argc, char** argv)
     char mm[] = "fuck.c";
     char hh[] = "hugo.c";
     sometree.addLeaf(argv[1], mm, seg, 7);
+
     sometree.addLeaf(mm, hh, seg, 7);
 
 
-    file.seekg (0, ios::beg);
-    file.read (memblock, size);
-    file.close();
+
 
     cout << "The entire file content is in memory" << endl;
 		cout << "File size is:" << size << " bytes" << endl;

@@ -1,5 +1,6 @@
 #include "tree.h"
 #include <stdbool.h>
+
 using namespace std;
 
 leaf* arbitarytree::createLeaf(char *leafname, uint8_t *file, size_t size)
@@ -17,12 +18,13 @@ leaf* arbitarytree::createLeaf(char *leafname, uint8_t *file, size_t size)
 void arbitarytree::appendLeaf(leaf *parent, leaf *newleaf)
 {
   nqnt++;
-  parent->child.push_back(*newleaf);
-  leaf* tleaf = parent->child.data();
-  tleaf->parent = parent;
-  tleaf->cntnumber = nqnt;
 
-  links.push_back(tleaf);
+  parent->child.push_back(*newleaf);
+
+  newleaf->parent = parent;
+  newleaf->cntnumber = nqnt;
+
+  links.push_back(newleaf);
 }
 
 void arbitarytree::addLeaf(char *leafname, uint8_t *file, size_t size)
@@ -42,15 +44,11 @@ leaf* retleaf;
 // Searching of parent leaf
 leaf* arbitarytree::searchLeaf(char *leafname)
 {
-  leaf **pleaf;
+  size_t linksize = links.size();
 
-  pleaf = links.data();
-
-  if(checkmatch(leafname, *pleaf)) return *pleaf;
-  for(size_t i=0; i < links.size(); i++){
-    pleaf++;
-    if(checkmatch(leafname, *pleaf)) return *pleaf;
-  }
+  if(linksize > 1)
+    for(size_t i=0; i < linksize; i++) if(checkmatch(leafname, links[i])) return links[i];
+  else if(checkmatch(leafname, links[0])) return links[0];
 
   return retleaf;
 }

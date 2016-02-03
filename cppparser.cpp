@@ -4,6 +4,26 @@
 
 using namespace std;
 
+size_t calcNameLength(char *file)
+{
+  size_t len = 0;
+  cout << "File is:" << file << endl;
+  while(1){
+    if(*file == '\"' || *file == '<') break;
+    file++;
+  }
+  
+  file++;
+    while(1){
+        
+     	if(file[len] == '\"' || file[len] == '>') break;
+	len++;
+    }
+  
+  
+  return len;
+}
+
 int main(int argc, char** argv)
 {
   streampos size;
@@ -13,15 +33,14 @@ int main(int argc, char** argv)
 		cout << "You haven't enter file's name" << endl;
 		exit(1);
 	}
-  ifstream file (argv[1], ios::in | ios::binary | ios::ate);
-
+	ifstream file (argv[1], ios::in | ios::binary | ios::ate);
 	cout << "File name is: "<< argv[1] << endl;
 
-  if (file.is_open()) cout << "File is opened" << endl;
-  else{
-    cout << "Unable to open file" << endl;
-    exit(1);
-  }
+	if (file.is_open()) cout << "File is opened" << endl;
+	else{
+	  cout << "Unable to open file" << endl;
+	  exit(1);
+	}
 
     size = file.tellg();
 
@@ -32,21 +51,6 @@ int main(int argc, char** argv)
     file.close();
 
     arbitarytree sometree(argv[1], (uint8_t*)memblock, size);
-
-    uint8_t wut[3]={22,234,7};
-
-    char hui[] = "suuka.h";
-    sometree.addLeaf(hui,wut,3);
-
-    uint8_t seg[7] = {12,56,88,92,1,1,1};
-    char mm[] = "fuck.c";
-    char hh[] = "hugo.c";
-    sometree.addLeaf(argv[1], mm, seg, 7);
-
-    sometree.addLeaf(mm, hh, seg, 7);
-
-
-
 
     cout << "The entire file content is in memory" << endl;
 		cout << "File size is:" << size << " bytes" << endl;
@@ -63,11 +67,44 @@ int main(int argc, char** argv)
 
     for(uint32_t i=0; i < size; i++){
       if(memblock[i] == '#'){
-        printf("We found #\r\n");
-        char condition[7];
-        memcpy(condition, &memblock[i+1], 7);
-        printf("%s\r\n",condition);
-        if(strcmp(condition, "include") == 0) printf("We find include\r\n");
+        if(strncmp(&memblock[i], "#include",8) == 0){
+	  cout << "We find #include" << endl;
+
+	  size_t namelen = calcNameLength(&memblock[i+8]);
+	  cout << "Name length is:" << namelen << endl;
+	  char *filename = new char[256];
+	  snprintf(filename, namelen+1,"%s",(char*)&memblock[i+10]);
+	  
+	  //ifstream file (filename, ios::in | ios::binary | ios::ate);
+	  ifstream file(filename, ios::in | ios::binary | ios::ate);
+	  cout << "File name is: "<< filename << endl;
+
+	  if (file.is_open()) cout << "File is opened" << endl;
+	  else{
+	    char *p1name = new char[1024];
+	    snprintf(p1name, 1024, "/user/include/c++/5.3.1/%s",filename);
+	    ifstream file (filename, ios::in | ios::binary | ios::ate);
+	    if (file.is_open()) cout << "File is opened" << endl;
+	    else{
+	      snprintf(p1name, 1024, "/user/local/include/%s",filename);
+	      ifstream file (filename, ios::in | ios::binary | ios::ate);
+	      if (file.is_open()) cout << "File is opened" << endl;
+	    } 
+	    cout << "Unable to open file" << endl;
+	    exit(1);
+	  }
+	  
+	  streampos length = file.tellg();
+	  char *filecontent = new char[length+1];
+
+	  file.seekg (0, ios::beg);
+	  file.read(filecontent, length);
+	  file.close();		 
+	  sometree.addLeaf(argv[1], filename,(uint8_t*)filecontent, length );
+	}
+	
+	if(strncmp(&memblock[i], "#define",7) == 0) cout << "We find #include" << endl;
+
       }
     }
 

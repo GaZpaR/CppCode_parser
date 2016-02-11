@@ -2,6 +2,8 @@
 #include <string.h>
 #include "tree.h"
 
+#define Suka 200
+
 using namespace std;
 
 void printfilename(char *file)
@@ -26,6 +28,20 @@ void printfilename(char *file)
 
 }
 
+bool ifinclusion(char *ptr){
+  if(strncmp(ptr, "#include",8) == 0){
+     return true;
+  }
+  return false;
+}
+
+bool ifmacro(char *ptr){
+  if(strncmp(ptr, "#define", 7) == 0){
+    return true;
+  }
+  return false;
+}
+
 int main(int argc, char** argv)
 {
   streampos size;
@@ -43,6 +59,8 @@ int main(int argc, char** argv)
 	  cout << "Unable to open file" << endl;
 	  exit(1);
 	}
+
+	cout << "MM: "<< Suka << endl;
 
     size = file.tellg();
 
@@ -80,42 +98,11 @@ int main(int argc, char** argv)
 
   closedir(dir);
 
-  ifstream dotfile("..", ios::in | ios::binary | ios::ate);
-  if(dotfile.is_open()){
-    
-    cout << "Dot file is  opened" << endl;
-    int dsize = dotfile.tellg();
-    
-    cout << "Dot file length is: " << dsize << endl;
-
-    if(dsize > 0){
-      char *dotf = new char[dsize];
-      dotfile.seekg (0, ios::beg);
-      dotfile.read (dotf, dsize);
-      dotfile.close();
-
-      cout << "Dot file content is:"<< endl << dotf << endl;
-
-      delete[] dotf;
-    }
-
-  }
-  else cout << "Can't open dot file" << endl;
-
-  dotfile.close();
 
     for(uint32_t i=0; i < size; i++){
-      if(memblock[i] == '#'){
-        if(strncmp(&memblock[i], "#include",8) == 0){
-	  cout << "We find #include" << endl;
-
-	  printfilename(&memblock[i]);
-	  
-	}
-	
-	if(strncmp(&memblock[i], "#define",7) == 0) cout << "We find #define" << endl;
-
-      }
+      if(ifinclusion(&memblock[i])) cout << "We find inclusion"<< endl;
+      if(ifmacro(&memblock[i])) cout << "We find define"<< endl;
+     
     }
 
     delete[] memblock;

@@ -1,5 +1,6 @@
 #include <cppparser.h>
 #include <string.h>
+#include <vector>
 #include "tree.h"
 
 #define Suka 200
@@ -40,6 +41,22 @@ bool ifmacro(char *ptr){
     return true;
   }
   return false;
+}
+
+void parseLines(char *ptr, vector<string> *vec, size_t size)
+{
+  size_t linelen = 0;
+  for(size_t i=0; i < size; i++){
+    linelen++;
+    if(ptr[i] == '\n'){
+      char *line = new char[linelen];
+      memcpy(line, &ptr[i-linelen], linelen);
+      vec->push_back(line);
+      memset(line, 0x00, linelen);
+      delete[] line;
+      linelen = 0;
+    }
+  }
 }
 
 int main(int argc, char** argv)
@@ -99,11 +116,22 @@ int main(int argc, char** argv)
   closedir(dir);
 
 
+  vector<string> doclines;
+  parseLines(memblock, &doclines, size);
+
+  size_t ql = doclines.size();
+  cout << "Lines quantity is: " << ql << endl;
+  
+  for(uint32_t i=1; i < ql; i++){
+    cout << "Line: "<< i << "; size : "<< doclines[i].length() << "; content:"<< doclines[i]<<endl ;
+
+  }
+  
     for(uint32_t i=0; i < size; i++){
       if(ifinclusion(&memblock[i])) cout << "We find inclusion"<< endl;
       if(ifmacro(&memblock[i])) cout << "We find define"<< endl;
-     
     }
+    
 
     delete[] memblock;
 
